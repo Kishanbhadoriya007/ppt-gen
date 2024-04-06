@@ -11,6 +11,12 @@ title = input("Enter title")
 
 prompt = input("Describe the topic")
 
+prompt2 = input("second page")
+
+prompt3 = input("third page")
+
+prompt4 = input("fourth page")
+
 generated_text = generator(
     
     prompt,
