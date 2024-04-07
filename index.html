@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,16 +10,61 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
+  
+  <div id="main">
+      <div id="page1">
       <h1>
-        ppt generator
+        PPT-GENERATOR
       </h1>
-    </nav>
+      </div>
+    </div>
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
    <script src="script.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="page1"><h1>Presentation Generator</h1></div>
+    <form id="presentation-form">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+
+        <fieldset>
+            <legend>Slide Topics:</legend>
+            <div class="slide-topic">
+                <label for="slide1">Slide 1:</label>
+                <input type="text" id="slide1" name="slide1" required>
+            </div>
+            <div class="slide-topic">
+                <label for="slide2">Slide 2:</label>
+                <input type="text" id="slide2" name="slide2" required>
+            </div>
+            <div class="slide-topic">
+                <label for="slide3">Slide 3:</label>
+                <input type="text" id="slide3" name="slide3" required>
+            </div>
+            <div class="slide-topic">
+                <label for="slide4">Slide 4:</label>
+                <input type="text" id="slide4" name="slide4" required>
+            </div>
+        </fieldset>
+
+        <button type="submit">Generate Slides</button>
+    </form>
+    <div id="output"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>

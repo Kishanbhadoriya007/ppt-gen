@@ -7,8 +7,88 @@
 html, body {
     height: 100%;
     width: 100%;
+    background-color: rgba(23, 22, 22, 0.457);
  }
 
 #nav {
      background-color: yellowgreen;
+}
+#main {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.377);
+}
+
+/* #page1{
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    z-index: 10;
+} */
+#page1 h1{
+    font-size: 100px;
+    font-weight: 600;
+    position: relative;
+}
+/* #page1 h1::before{
+    content: "PPT-GENERATOR";
+    position: absolute;
+    color: rgba(0, 0, 0, 0.612);
+    top: -6px;
+    left: -6px;
+    -webkit-text-stroke: 6px #a5d81a;
+    z-index: -1;
+} */
+
+
+body {
+    font-family: sans-serif;
+    
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+form label {
+    width: 400px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: 500;
+}
+
+fieldset {
+    font-size: 50px;
+    border: 5px solid #ccc;
+    padding: 30px;
+    margin-bottom: 25px;
+}
+
+fieldset legend {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.slide-topic {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#output {
+    margin-top: 20px;
+    padding: 10px;
+    border: 5px solid #ccc;
 }
