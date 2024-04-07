@@ -7,42 +7,15 @@
 html, body {
     height: 100%;
     width: 100%;
-    background-color: rgba(23, 22, 22, 0.457);
+    
+    position: relative;
  }
 
-#nav {
-     background-color: yellowgreen;
-}
-#main {
-    position: relative;
-    background-color: rgba(0, 0, 0, 0.377);
-}
-
-/* #page1{
-    height: 100vh;
-    width: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    z-index: 10;
-} */
 #page1 h1{
     font-size: 100px;
     font-weight: 600;
     position: relative;
 }
-/* #page1 h1::before{
-    content: "PPT-GENERATOR";
-    position: absolute;
-    color: rgba(0, 0, 0, 0.612);
-    top: -6px;
-    left: -6px;
-    -webkit-text-stroke: 6px #a5d81a;
-    z-index: -1;
-} */
 
 
 body {
@@ -55,11 +28,25 @@ h1 {
     margin-bottom: 35px;
 }
 
+img {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://images.unsplash.com/photo-1512950050685-b1d4ae63d2df?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"); /* Replace with your image path */
+    background-size: cover;
+    z-index: -1; 
+  }
+  
+
+
 form {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 50px;
+    font-size: 50px;
 }
 
 form label {
@@ -68,7 +55,9 @@ form label {
     font-size: 50px;
     font-weight: 500;
 }
-
+form button {
+    font-size: 50px;
+}
 fieldset {
     font-size: 50px;
     border: 5px solid #ccc;
