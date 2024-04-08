@@ -36,9 +36,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="page1"><h1>Presentation Generator</h1></div>
-    <form id="presentation-form">
-        <label for="title">Title:</label>
+    <div id="page1">
+        <h1>Presentation Generator</h1>
+    </div>
+    <form id="presentation-form" enctype="multipart/form-data" method="POST" action="/generate">  <label for="title">Title:</label>
         <input type="text" id="title" name="title" required>
 
         <fieldset>
@@ -52,19 +53,22 @@
                 <input type="text" id="slide2" name="slide2" required>
             </div>
             <div class="slide-topic">
-                <label for="slide3">Slide 3:</label>
-                <input type="text" id="slide3" name="slide3" required>
-            </div>
-            <div class="slide-topic">
-                <label for="slide4">Slide 4:</label>
-                <input type="text" id="slide4" name="slide4" required>
-            </div>
+                </div>
         </fieldset>
+
+        <div id="theme-options">
+            <label for="theme-color">Theme Color:</label>
+            <input type="color" id="theme-color" name="theme-color">
+        </div>
+
+        <div id="image-upload">
+            <label for="image">Slide Image (Optional):</label>
+            <input type="file" id="image" name="image" accept="image/*">
+        </div>
 
         <button type="submit">Generate Slides</button>
     </form>
     <div id="output"></div>
-    <img src="https://images.unsplash.com/photo-1512950050685-b1d4ae63d2df?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="background-presentation">
 
     <script src="script.js"></script>
 </body>
