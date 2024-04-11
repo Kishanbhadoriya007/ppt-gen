@@ -3,35 +3,27 @@ from pptx import Presentation
 from pptx.util import Inches
 from pptx.dml.color import RGBColor
 from transformers import pipeline
-import firebase_admin  
+import firebase_admin
+from firebase_admin import firestore
 from firebase_admin import db, credentials
 
-# Initialize Flask app
+
+
 app = Flask(__name__)
 
-# Replace with your Firebase project credentials (obtained from Firebase console)
+print("Everything fine till here")
+
 cred = credentials.Certificate("credentials.json")
-firebase_admin.initialize_app(cred, ("databaseURL":"https://ppt-generator-b5032-default-rtdb.asia-southeast1.firebasedatabase.app/"))
-{
-    "type": "...",
-    "project_id": "...",
-    "private_key": "...",
-    "client_email": "...",
-    "client_id": "..."
-}
+firebase_admin.initialize_app(cred, {"databaseURL": "https://ppt-generator-b5032-default-rtdb.asia-southeast1.firebasedatabase.app/"})
 
-# Initialize Firebase app
-firebase_admin.initialize_app(cred)
-db = firebase_admin.firestore.client()  # Access Firestore database
+db = firestore.Client()
 
-# Text generation pipeline (replace with your preferred method)
 generator = pipeline("text-generation", model="openai-community/gpt2")
 
-
+print("Everything fine till here 2")
 def generate_slides(title, slides, theme_color, image_data=None):
     pr = Presentation()
 
-    # Set theme color (if provided)
     if theme_color:
         try:
             color = RGBColor.from_string(theme_color)
@@ -53,36 +45,44 @@ def generate_slides(title, slides, theme_color, image_data=None):
         title_shape.text = f"{title} - Page {i+1}"
         subtitle_placeholder.text_frame.paragraphs[0].text = text
 
-        # Add image functionality (replace with actual logic)
         if image_data:
             try:
                 pic = slide.shapes.add_picture(image_data, left=Inches(1), top=Inches(2), width=Inches(3))
             except FileNotFoundError:
                 print("Image not found.")
 
-    # Save to presentation and potentially store in Firebase
-    presentation_data = pr.slides[0].slide_width, pr.slides[0].slide_height, pr.save('generated_presentation.pptx')
-    db.collection('presentations').add({'title': title, 'data': presentation_data})  # Store presentation metadata
+    with open("generated_presentation.pptx", "wb") as pptx_file:
+        pptx_file.write(pr.slides[0].slide_width, pr.slides[0].slide_height, pr.save(pptx_file))
+    print("Everything fine till here 3")
+    storage = firebase_admin.storage.Bucket("gs://ppt-generator-b5032.appspot.com")
+    blob = storage.blob(f"presentations/{title}.pptx")
+    blob.upload_from_filename("generated_presentation.pptx")
+
+    presentation_url = blob.public_url
+    db.collection('presentations').add({'title': title, 'url': presentation_url})
 
     return "Presentation generated successfully!"
 
-
+print("Everything fine till here 5")
 @app.route('/generate', methods=['POST'])
 def generate_presentation():
     data = request.form
     title = data.get('title')
     slides = data.getlist('slide')
     theme_color = data.get('theme-color')
-    image = request.files.get('image')  # Access uploaded image
+    image = request.files.get('image') 
 
     if image:
-        image_data = image.read()  # Read image data
+        image_data = image.read()  
     else:
         image_data = None
 
     response = generate_slides(title, slides, theme_color, image_data)
     return jsonify({'message': response})
 
+print("Everything fine till here 4")
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
+print("Everything fine till here 5")

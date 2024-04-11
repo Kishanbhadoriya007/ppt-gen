@@ -56,7 +56,17 @@ form label {
     font-weight: 500;
 }
 form button {
-    font-size: 50px;
+    font-size: 30px;
+}
+image-upload{
+    height: 50px;
+}
+form input {
+    height: 50px;
+    width: 300px;
+    font-size: 30px;
+    border-radius: 10px;
+    border-color: aqua;
 }
 fieldset {
     font-size: 50px;
@@ -67,14 +77,17 @@ fieldset {
 
 fieldset legend {
     font-weight: bold;
+    font-size: 40px;
     margin-bottom: 15px;
+    padding: 10px 20px;
 }
-
 .slide-topic {
     display: flex;
     align-items: center;
     gap: 15px;
+    padding: 10px 20px;
 }
+
 
 #output {
     margin-top: 20px;

@@ -1,65 +1,52 @@
-// var crsr = document.querySelector("#cursor")
-// var blur = document.querySelector("#cursor-blur")
-// document.addEventListener("mousemove",function(dets){
-//     crsr.style.left = dets.x+"px"
-//     crsr.style.top = dets.y+"px"
-//     blur.style.left = dets.x - 250 +"px"
-//     blur.style.top = dets.y - 250 +"px"
-// })
-
-
-// gsap.to("#nav",{
-//     backgroundColor:"#000",
-//     duration:1,
-//     height:"120px",
-//     scrollTrigger:{
-//         trigger:"#nav",
-//         scroller:"body",
-//         markers:0,
-//         start:"top -5%",
-//         end:"top -15%",
-//         scrub:1,
-//     }  
-// })
-
-// gsap.to("#main",{
-//     backgroundColor : "#000",
-//     scrollTrigger:{
-//         trigger:"main",
-//         scroller:"body",
-//         markers:true,
-//         start:"top -25%",
-//         end:"top -75%",
-//         scrub:2,
-//     }
-// })
-
-// const form = document.getElementById('presentation-form');
-// const output = document.getElementById('output');
-
 // form.addEventListener('submit', (event) => {
-//   event.preventDefault(); // Prevent default form submission
-
-//   const title = document.getElementById('title').value;
-//   const slides = [
-//     document.getElementById('slide1').value,
-//     document.getElementById('slide2').value,
-//     document.getElementById('slide3').value,
-//     document.getElementById('slide4').value,
-//   ];
-
-//   // Simulate generation logic (replace with actual API call if possible)
-//   const generatedText = `**Presentation Title:** ${title}\n\n`;
-//   for (let i = 0; i < slides.length; i++) {
-//     generatedText += `**Slide ${i + 1}:** ${slides[i]}\n\n`;
-//   }
-
-//   output.textContent = generatedText;
+//   event.preventDefault(); 
 // });
 
-const form = document.getElementById('presentation-form');
-const output = document.getElementById('output');
+console.log("hello ji")
+let addslide = () => {
+  // addslide.counter=5;
+let newnodediv=document.createElement("div")
+newnodediv.classList.add("slide-topic")
+console.log("hello ji")
+console.log(newnodediv)
 
-form.addEventListener('submit', (event) => {
-  event.preventDefault(); // Prevent default form submission
-});
+let newnode = document.createElement("input");
+//   newnode.classList.add("form-control");
+newnode.classList.add("mt-2");
+//   newnode.classList.add("skillt");
+newnode.type = "text";
+//   newnode.name = "skil";
+//   newnode.placeholder = "skill";
+// lable
+console.log("hello ji")
+console.log(newnode)
+
+let newnodelabel=document.createElement("label")
+// newnodelabel.classList.add("")
+newnodelabel.innerHTML="Slide:"
+let divskill = document.getElementById("input-columns");
+
+//   newnodediv.innerHTML=newnodelabel
+console.log("hello ji")
+console.log(newnodelabel)
+
+// newnodediv.innerHTML=newnodelabel
+console.log("hello ji")
+console.log(newnodediv)
+
+//   let t=newnodediv.innerHTML
+//   newnodediv.innerHTML=t+newnode
+divskill.append(newnodediv);
+newnodediv.appendChild(newnodelabel)
+newnodediv.appendChild(newnode)
+//    addslide.counter++;
+}
+// remove skills
+function removeslideInputsByClassName() {
+let elements = document.querySelectorAll('.slide-topic');
+console.log(typeof(elements))
+console.log(elements)
+
+let numberOfProperties = (Object.keys(elements).length)-1;
+elements[numberOfProperties].remove();
+}
