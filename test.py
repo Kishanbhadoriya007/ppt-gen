@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, send_file, redirect, url_for
 from pptx import Presentation
 from pptx.util import Inches
-from transformers import pipeline
+# from transformers import pipeline
 from pptx.dml.color import RGBColor
 import os
 from pathlib import Path
