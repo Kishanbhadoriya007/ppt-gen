@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configure Slides</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Configure Slides for: {{ main_topic }}</h1>
+        <p>Review and edit the generated headings below. Then, proceed to generate the full presentation.</p>
+        
+        <form action="{{ url_for('create_presentation_form') }}" method="post" id="finalConfigForm">
+            <input type="hidden" name="session_id" value="{{ session_id }}">
+            
+            <div id="headings_container">
+                {% for heading_item in headings %}
+                <div class="form-group slide-heading-group">
+                    <label for="final_heading_{{ loop.index }}">Heading for Slide {{ loop.index }}:</label>
+                    <input type="text" id="final_heading_{{ loop.index }}" name="final_headings" value="{{ heading_item.heading }}" required>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="confirmation-details">
+                <h3>Summary of Choices:</h3>
+                <p><strong>Number of Slides:</strong> {{ num_slides }}</p>
+                <p><strong>Template:</strong> {{ template_choice if template_choice != 'upload' else 'User Uploaded File' }}</p>
+                <p><strong>Theme Color:</strong> {{ theme_color if theme_color else 'Default' }}</p>
+                <p><strong>Max Tokens/Slide:</strong> {{ max_tokens_per_slide }}</p>
+                <p><strong>Style/Tone:</strong> {{ style_tone }}</p>
+                <p><strong>Content Format:</strong> {{ content_format }}</p>
+            </div>
+
+            <button type="submit" class="btn">Create Full Presentation</button>
+        </form>
+        <p><a href="{{url_for('get_index')}}">Start Over</a></p>
+    </div>
+    </body>
+</html>

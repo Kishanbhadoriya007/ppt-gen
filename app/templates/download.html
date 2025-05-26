@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Presentation</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Presentation Generation Status</h1>
+        <p><strong>Job ID:</strong> <span id="job_id">{{ job_id }}</span></p>
+        <p><strong>Filename:</strong> <span id="filename">{{ filename }}</span></p>
+        <div id="status-container">
+            <p><strong>Status:</strong> <span id="status-message">Processing...</span></p>
+            <div class="progress-bar-container" id="progress_bar_container" style="display: none;">
+                 <div class="progress-bar" id="progress_bar" style="width: 0%;">0%</div>
+            </div>
+        </div>
+        <div id="download-link-container" style="display: none;">
+            <p>Your presentation is ready!</p>
+            <a href="#" id="download-link" class="btn download-btn">Download Presentation</a>
+            <p><small>The file will be available for a short period.</small></p>
+        </div>
+        <div id="error-container" style="display: none;">
+            <p class="error-message">An error occurred. Please try again.</p>
+            <p id="error-detail"></p>
+        </div>
+        <p><a href="{{url_for('get_index')}}">Generate Another Presentation</a></p>
+    </div>
+
+    <script>
+        const jobId = document.getElementById('job_id').textContent;
+        const statusUrl = "{{ status_url }}"; // Passed from template rendering
+        const statusMessage = document.getElementById('status-message');
+        const downloadLinkContainer = document.getElementById('download-link-container');
+        const downloadLink = document.getElementById('download-link');
+        const errorContainer = document.getElementById('error-container');
+        const errorDetail = document.getElementById('error-detail');
+        const progressBarContainer = document.getElementById('progress_bar_container');
+        const progressBar = document.getElementById('progress_bar');
+        let intervalId;
+
+        function updateProgress(message) {
+            // Very basic progress update based on messages.
+            // A real progress bar would need more granular updates from the backend.
+            let progressValue = 0;
+            if (message.toLowerCase().includes("initializing")) progressValue = 10;
+            else if (message.toLowerCase().includes("generating content for slide 1")) progressValue = 20;
+            else if (message.toLowerCase().includes("generating content for slide")) {
+                try {
+                    const parts = message.split("slide ")[1].split("/");
+                    const current = parseInt(parts[0]);
+                    const total = parseInt(parts[1].split(":")[0]);
+                    progressValue = 20 + Math.floor((current / total) * 70); // 20% to 90%
+                } catch (e) { progressValue = Math.min(progressBar.style.width.replace('%','')*1 + 5, 80); } // Increment slowly
+            } else if (message.toLowerCase().includes("applied theme") || message.toLowerCase().includes("using template")) {
+                 progressValue = Math.max(15, progressBar.style.width.replace('%','')*1);
+            } else if (message.toLowerCase().includes("successfully")) {
+                 progressValue = 100;
+            }
+
+
+            if (progressValue > 0) {
+                progressBarContainer.style.display = 'block';
+                progressBar.style.width = progressValue + '%';
+                progressBar.textContent = progressValue + '%';
+            }
+        }
+
+
+        async function checkJobStatus() {
+            try {
+                const response = await fetch(statusUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                statusMessage.textContent = data.message || data.status;
+                updateProgress(data.message || data.status);
+
+
+                if (data.status === 'completed') {
+                    clearInterval(intervalId);
+                    statusMessage.textContent = 'Completed!';
+                    progressBar.style.width = '100%';
+                    progressBar.textContent =  '100%';
+                    if (data.download_url) {
+                        downloadLink.href = data.download_url;
+                        downloadLinkContainer.style.display = 'block';
+                    } else {
+                        errorDetail.textContent = "Download URL not provided.";
+                        errorContainer.style.display = 'block';
+                    }
+                } else if (data.status === 'failed') {
+                    clearInterval(intervalId);
+                    statusMessage.textContent = 'Failed!';
+                    errorDetail.textContent = data.error_detail || data.message || 'Unknown error.';
+                    errorContainer.style.display = 'block';
+                    progressBarContainer.style.display = 'none';
+                } else if (data.status === 'processing') {
+                    // Keep polling
+                    progressBarContainer.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error fetching job status:', error);
+                statusMessage.textContent = 'Error checking status.';
+                // clearInterval(intervalId); // Optionally stop polling on fetch error
+            }
+        }
+
+        // Start polling
+        intervalId = setInterval(checkJobStatus, 3000); // Poll every 3 seconds
+        checkJobStatus(); // Initial check
+    </script>
+</body>
+</html>

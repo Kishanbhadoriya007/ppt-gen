@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI PowerPoint Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head><body>
+    <div class="container">
+        <h1>AI PowerPoint Generator 🧠💡</h1>
+        <form action="{{ url_for('generate_headings_form') }}" method="post" enctype="multipart/form-data" id="pptConfigForm">
+            <div class="form-group">
+                <label for="main_topic">Enter Main Presentation Topic:</label>
+                <input type="text" id="main_topic" name="main_topic" required placeholder="e.g., The Future of Renewable Energy">
+            </div>
+
+            <div class="form-group">
+                <label for="num_slides">Number of Slides (Content Slides):</label>
+                <input type="number" id="num_slides" name="num_slides" min="1" max="{{ max_slides }}" value="{{ default_slides }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="max_tokens_per_slide">Max Tokens per Slide Content (approx):</label>
+                <input type="number" id="max_tokens_per_slide" name="max_tokens_per_slide" min="50" max="{{ max_tokens }}" value="{{ default_tokens }}" step="50" required>
+                <small>Controls length of AI-generated text per slide.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="style_tone">Content Style/Tone:</label>
+                <select id="style_tone" name="style_tone">
+                    <option value="neutral" selected>Neutral</option>
+                    <option value="formal">Formal</option>
+                    <option value="casual">Casual</option>
+                    <option value="academic">Academic</option>
+                    <option value="creative">Creative</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="content_format">Content Format:</label>
+                <select id="content_format" name="content_format">
+                    <option value="bullet_points" selected>Bullet Points</option>
+                    <option value="summary">Short Summary</option>
+                    <option value="paragraph">Detailed Paragraph</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="template_choice">Choose Template Option:</label>
+                <select id="template_choice" name="template_choice" onchange="toggleTemplateUpload(this.value)">
+                    <option value="" disabled selected>-- Select Template --</option>
+                    <option value="upload">Upload My Own PPTX Template</option>
+                    {% if server_templates %}
+                        <optgroup label="Use a Server Template">
+                        {% for tpl in server_templates %}
+                            <option value="{{ tpl }}">{{ tpl }}</option>
+                        {% endfor %}
+                        </optgroup>
+                    {% else %}
+                         <option value="default_new">Create New (Basic)</option> {% endif %}
+                </select>
+            </div>
+
+            <div class="form-group" id="template_upload_group" style="display:none;">
+                <label for="pptx_template_file">Upload PPTX Template:</label>
+                <input type="file" id="pptx_template_file" name="pptx_template_file" accept=".pptx">
+                <small>If not provided with "Upload" option, or if server template is chosen, this is ignored.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="theme_color">Theme Color (Optional):</label>
+                <input type="text" id="theme_color" name="theme_color" placeholder="e.g., blue, #FF5733, violet">
+                <small>Enter a VIBGYOR color name or a Hex code (e.g., #RRGGBB).</small>
+            </div>
+
+            <button type="submit" class="btn">Generate Slide Headings</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+</body>
+</html>

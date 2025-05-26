@@ -1,0 +1,18 @@
+# requirements.txt
+# requirements.txt
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0 # Using [standard] installs common extras like websockets, which might be useful later.
+pydantic>=2.7.0
+pydantic-settings>=2.2.0
+python-pptx>=0.6.23
+jinja2>=3.1.0
+httpx>=0.27.0
+python-multipart>=0.0.9 # For FastAPI UploadFile, form data
+python-dotenv>=1.0.0   # For pydantic-settings to load .env files
+
+# Optional, but good for type hinting if you expand on it
+typing-extensions>=4.0.0
+google-generativeai
+openai
+mistralai
+deepseek-cli
